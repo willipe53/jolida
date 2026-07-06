@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780">
+  <rect width="1100" height="780" fill="#fafafa"/>
+  <text x="30" y="35" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#111">Jolida SJ202A / JD202 - Power Board (as-built)</text>
+  <text x="30" y="58" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#444">Empirical BOM from photos and cap markings. Factory PDF is secondary reference only.</text>
+
+  <!-- HV section title -->
+  <text x="30" y="95" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#222">High-voltage supply (T2 HV winding)</text>
+
+  <!-- T2 HV input -->
+  <rect x="40" y="120" width="70" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="75" y="142" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111">T2 HV</text>
+  <text x="75" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">AC IN</text>
+
+  <!-- Bridge VD3-VD6 -->
+  <rect x="150" y="110" width="120" height="56" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="210" y="132" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#111">Bridge</text>
+  <text x="210" y="148" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#333">VD3-VD6  1N5408</text>
+  <text x="210" y="162" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">flat_power silk</text>
+
+  <!-- +B3 rail -->
+  <line x1="270" y1="138" x2="340" y2="138" stroke="#c00" stroke-width="2"/>
+  <text x="345" y="142" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#c00">+B3</text>
+  <text x="345" y="158" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">tag 23 / ~425V</text>
+
+  <!-- C8 C9 series filter -->
+  <rect x="420" y="105" width="55" height="30" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="447" y="124" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C8</text>
+  <text x="447" y="135" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">470uF/450V</text>
+
+  <rect x="420" y="155" width="55" height="30" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="447" y="174" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C9</text>
+  <text x="447" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">470uF/450V</text>
+
+  <line x1="475" y1="120" x2="510" y2="120" stroke="#333" stroke-width="1.5"/>
+  <line x1="475" y1="170" x2="510" y2="170" stroke="#333" stroke-width="1.5"/>
+  <line x1="510" y1="120" x2="510" y2="170" stroke="#333" stroke-width="1.5"/>
+  <line x1="510" y1="145" x2="530" y2="145" stroke="#333" stroke-width="1.5"/>
+  <text x="535" y="149" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#333">mid -&gt; GND</text>
+
+  <!-- R23 R24 bleeder -->
+  <rect x="560" y="105" width="55" height="30" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="587" y="124" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">R23</text>
+  <text x="587" y="135" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">27R/10W</text>
+
+  <rect x="560" y="155" width="55" height="30" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="587" y="174" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">R24</text>
+  <text x="587" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">27R/10W</text>
+
+  <text x="625" y="142" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">Rebuild: 68K/3W (OI-2)</text>
+
+  <!-- R22 dropper -->
+  <rect x="700" y="120" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="727" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">R22</text>
+  <text x="727" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">27R/10W</text>
+  <text x="765" y="142" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">PDF: 3.3K R22</text>
+
+  <!-- +B1 -->
+  <line x1="755" y1="138" x2="820" y2="138" stroke="#c00" stroke-width="2"/>
+  <text x="825" y="142" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#c00">+B1</text>
+  <text x="825" y="158" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">tag 21 / ~370V</text>
+
+  <!-- C6 -->
+  <rect x="900" y="120" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="927" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C6</text>
+  <text x="927" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">180uF/450V</text>
+
+  <!-- R21 -->
+  <rect x="980" y="120" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="1007" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">R21</text>
+  <text x="1007" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">100K/2W</text>
+
+  <!-- +B2 -->
+  <line x1="870" y1="200" x2="920" y2="200" stroke="#c00" stroke-width="2"/>
+  <text x="925" y="204" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#c00">+B2</text>
+  <text x="925" y="220" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">tag 19 / ~220V</text>
+
+  <!-- C5 -->
+  <rect x="980" y="185" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="1007" y="203" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C5</text>
+  <text x="1007" y="217" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">180uF/450V</text>
+
+  <!-- GND symbol -->
+  <line x1="510" y1="220" x2="510" y2="240" stroke="#333" stroke-width="1.5"/>
+  <line x1="490" y1="240" x2="530" y2="240" stroke="#333" stroke-width="2"/>
+  <line x1="498" y1="248" x2="522" y2="248" stroke="#333" stroke-width="1.5"/>
+  <line x1="504" y1="256" x2="516" y2="256" stroke="#333" stroke-width="1"/>
+  <text x="540" y="248" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">GND (tag 11)</text>
+
+  <!-- Connect lines HV chain -->
+  <line x1="110" y1="138" x2="150" y2="138" stroke="#333" stroke-width="1.5"/>
+  <line x1="340" y1="138" x2="420" y2="120" stroke="#333" stroke-width="1.5"/>
+  <line x1="340" y1="138" x2="420" y2="170" stroke="#333" stroke-width="1.5"/>
+  <line x1="475" y1="120" x2="560" y2="120" stroke="#333" stroke-width="1.5"/>
+  <line x1="475" y1="170" x2="560" y2="170" stroke="#333" stroke-width="1.5"/>
+  <line x1="615" y1="120" x2="615" y2="220" stroke="#333" stroke-width="1.5"/>
+  <line x1="615" y1="170" x2="615" y2="220" stroke="#333" stroke-width="1.5"/>
+  <line x1="615" y1="220" x2="510" y2="220" stroke="#333" stroke-width="1.5"/>
+  <line x1="615" y1="138" x2="700" y2="138" stroke="#333" stroke-width="1.5"/>
+  <line x1="955" y1="138" x2="980" y2="138" stroke="#333" stroke-width="1.5"/>
+  <line x1="955" y1="138" x2="955" y2="200" stroke="#333" stroke-width="1.5"/>
+  <line x1="955" y1="200" x2="980" y2="203" stroke="#333" stroke-width="1.5"/>
+  <line x1="1035" y1="203" x2="1035" y2="240" stroke="#333" stroke-width="1.5"/>
+  <line x1="1035" y1="240" x2="510" y2="240" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="927" y1="156" x2="927" y2="240" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Bias section -->
+  <text x="30" y="310" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#222">Bias supply (T2 50V winding)</text>
+
+  <rect x="40" y="330" width="70" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="75" y="352" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111">T2 50V</text>
+
+  <rect x="150" y="330" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="177" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">VD7</text>
+  <text x="177" y="362" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">1N4007</text>
+
+  <line x1="205" y1="348" x2="250" y2="348" stroke="#06c" stroke-width="2"/>
+  <text x="255" y="352" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#06c">-B</text>
+  <text x="255" y="368" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">~ -72V raw</text>
+
+  <rect x="320" y="330" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="347" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C11</text>
+  <text x="347" y="362" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">220uF/160V</text>
+
+  <rect x="410" y="330" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="437" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">R25</text>
+  <text x="437" y="362" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">2.2K/2W</text>
+
+  <line x1="465" y1="348" x2="520" y2="348" stroke="#06c" stroke-width="2"/>
+  <text x="525" y="352" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#06c">-B1</text>
+  <text x="525" y="368" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">tag 17 / ~ -54V</text>
+
+  <rect x="600" y="330" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="627" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C10</text>
+  <text x="627" y="362" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">220uF/160V</text>
+
+  <line x1="110" y1="348" x2="150" y2="348" stroke="#333" stroke-width="1.5"/>
+  <line x1="375" y1="348" x2="410" y2="348" stroke="#333" stroke-width="1.5"/>
+  <line x1="655" y1="348" x2="655" y2="400" stroke="#333" stroke-width="1.5"/>
+  <line x1="655" y1="400" x2="510" y2="400" stroke="#333" stroke-width="1.5"/>
+  <line x1="347" y1="366" x2="347" y2="400" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="510" y1="400" x2="510" y2="256" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- C7 aux rail -->
+  <text x="30" y="450" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#222">Low-voltage aux rail</text>
+
+  <rect x="40" y="470" width="70" height="36" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="75" y="492" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111">T2 aux</text>
+
+  <rect x="150" y="470" width="55" height="36" fill="#fff" stroke="#333" stroke-width="1.5" rx="3"/>
+  <text x="177" y="488" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#111">C7</text>
+  <text x="177" y="502" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#666">470uF/50V</text>
+
+  <line x1="205" y1="488" x2="260" y2="488" stroke="#090" stroke-width="2"/>
+  <text x="265" y="492" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#090">+50V</text>
+  <text x="265" y="508" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#666">KME as-built</text>
+
+  <line x1="110" y1="488" x2="150" y2="488" stroke="#333" stroke-width="1.5"/>
+  <line x1="177" y1="506" x2="177" y2="540" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="177" y1="540" x2="510" y2="540" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Harness outputs box -->
+  <rect x="30" y="580" width="1040" height="170" fill="#fff" stroke="#999" stroke-width="1" rx="6"/>
+  <text x="50" y="610" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#222">Wire harness outputs (to preamp / chassis)</text>
+
+  <rect x="50" y="630" width="130" height="50" fill="#fee" stroke="#c00" stroke-width="1"/>
+  <text x="115" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#c00">+B3</text>
+  <text x="115" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">wire tag 23</text>
+
+  <rect x="210" y="630" width="130" height="50" fill="#fee" stroke="#c00" stroke-width="1"/>
+  <text x="275" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#c00">+B1</text>
+  <text x="275" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">wire tag 21</text>
+
+  <rect x="370" y="630" width="130" height="50" fill="#fee" stroke="#c00" stroke-width="1"/>
+  <text x="435" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#c00">+B2</text>
+  <text x="435" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">wire tag 19</text>
+
+  <rect x="530" y="630" width="130" height="50" fill="#eef" stroke="#06c" stroke-width="1"/>
+  <text x="595" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#06c">-B1</text>
+  <text x="595" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">wire tag 17</text>
+
+  <rect x="690" y="630" width="130" height="50" fill="#eee" stroke="#333" stroke-width="1"/>
+  <text x="755" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333">GND</text>
+  <text x="755" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">wire tag 11</text>
+
+  <rect x="850" y="630" width="200" height="50" fill="#efe" stroke="#090" stroke-width="1"/>
+  <text x="950" y="652" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#090">+50V (C7)</text>
+  <text x="950" y="670" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666">preamp aux</text>
+
+  <text x="50" y="720" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#888">OI-2 closed — R23/R24 rebuild: 68 kΩ / 3 W. See docs/open-issues.md</text>
+  <text x="50" y="738" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#888">KiCad: kicad/power.kicad_sch  |  Regenerate: python3 kicad/generate_power_schematic.py</text>
+</svg>

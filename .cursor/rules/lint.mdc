@@ -1,0 +1,68 @@
+---
+description: Always run linters on changed files and fix all reported errors before finishing
+alwaysApply: true
+---
+
+# Lint before you finish
+
+Every turn that **creates or edits files** must end with a clean lint pass on those files. Do not leave linter warnings or errors for the user.
+
+## Required workflow
+
+1. **Identify changed files** from your edits this turn.
+2. **Run linters** appropriate to each file type (see below).
+3. **Fix every reported issue** — not just the ones you introduced; if a file is dirty, leave it clean.
+4. **Re-run** until zero errors remain on changed files.
+5. **Do not** ask the user to report lint problems you can fix yourself.
+
+Use the IDE `ReadLints` tool on changed paths as a final check when available.
+
+## Markdown (`**/*.md`)
+
+Config: `.markdownlint.json`
+
+After any edit (especially tables):
+
+```bash
+python3 scripts/format_md_tables.py <changed-files>.md
+scripts/lint-markdown.sh "<changed-files>.md"
+```
+
+Use `scripts/lint-markdown.sh` — **not** `npx markdownlint-cli2` (Cursor sets `npm_config_devdir`, which makes npm print spurious warnings). A clean run ends with `Summary: 0 error(s)`; version banners are not errors.
+
+- Run `format_md_tables.py` whenever tables were added or changed — see `.cursor/rules/markdown.mdc`.
+- Fix **all** markdownlint rules, not only MD060.
+- Re-run both commands until markdownlint reports zero errors.
+
+## Python (`**/*.py`)
+
+After edits:
+
+```bash
+python3 -m py_compile <changed-files>.py
+```
+
+Use `ReadLints` on changed `.py` files and fix any diagnostics.
+
+## Other file types
+
+If the project adds linters later (e.g. ruff, eslint), run them on changed files the same way: fix all output, re-run until clean.
+
+## Do not
+
+- Skip lint because the change was "small" or "docs only."
+- Hand-align markdown table pipes instead of using `format_md_tables.py`.
+- End the turn with known linter errors on files you touched.
+- Tell the user to run the linter — you run it.
+
+## Git pre-commit hook
+
+Version-controlled hook: `.githooks/pre-commit` (markdown format + markdownlint; Python `py_compile`).
+
+One-time install after clone:
+
+```bash
+./scripts/install-git-hooks.sh
+```
+
+If you edit markdown or Python in a turn where the user may commit, ensure staged files would pass the hook (same commands as above).

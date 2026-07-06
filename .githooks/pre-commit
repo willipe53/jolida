@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Pre-commit: format and lint staged markdown and Python files.
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+MD_FILES=()
+PY_FILES=()
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  case "$f" in
+    *.md) MD_FILES+=("$f") ;;
+    *.py) PY_FILES+=("$f") ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=ACM)
+
+if ((${#MD_FILES[@]} == 0 && ${#PY_FILES[@]} == 0)); then
+  exit 0
+fi
+
+if ((${#MD_FILES[@]} > 0)); then
+  echo "pre-commit: formatting markdown tables..."
+  python3 scripts/format_md_tables.py "${MD_FILES[@]}"
+
+  REFORMATTED=()
+  for f in "${MD_FILES[@]}"; do
+    if ! git diff --quiet -- "$f"; then
+      git add -- "$f"
+      REFORMATTED+=("$f")
+    fi
+  done
+  if ((${#REFORMATTED[@]} > 0)); then
+    echo "pre-commit: re-staged formatted files:"
+    printf '  %s\n' "${REFORMATTED[@]}"
+  fi
+
+  echo "pre-commit: markdownlint..."
+  if ! scripts/lint-markdown.sh "${MD_FILES[@]}"; then
+    echo "pre-commit: markdownlint failed — fix errors above and commit again." >&2
+    exit 1
+  fi
+fi
+
+if ((${#PY_FILES[@]} > 0)); then
+  echo "pre-commit: py_compile..."
+  for f in "${PY_FILES[@]}"; do
+    if ! python3 -m py_compile "$f"; then
+      echo "pre-commit: py_compile failed on $f" >&2
+      exit 1
+    fi
+  done
+fi
+
+exit 0

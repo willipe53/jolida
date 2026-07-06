@@ -1,0 +1,48 @@
+---
+description: Markdown lint conventions for Jolida docs
+globs: "**/*.md"
+alwaysApply: false
+---
+
+# Markdown
+
+Lint config: `.markdownlint.json` (loaded via `.vscode/settings.json`).
+
+## MD013 — line length
+
+**Disabled.** Do not wrap prose or table rows to satisfy an 80-character limit. Long URLs and dense technical sentences are fine.
+
+## MD060 — table column style (aligned)
+
+**Required.** Every GFM table must use **aligned** style: pipe characters (`|`) in the same column positions on every row (header, delimiter, and body).
+
+### When you edit markdown
+
+If you **add, change, or delete** any table row or cell:
+
+1. **Do not hand-align pipes** — padding drifts and causes MD060 errors.
+2. **Always run** the formatter before finishing:
+
+   ```bash
+   python3 scripts/format_md_tables.py <changed-files>.md
+   ```
+
+   For multiple files: `python3 scripts/format_md_tables.py docs/*.md README.md`
+
+3. **Verify** — run full markdownlint (required; see `.cursor/rules/lint.mdc`):
+
+   ```bash
+   scripts/lint-markdown.sh "<changed-files>.md"
+   ```
+
+   Fix **all** reported errors; re-run the formatter if MD060 persists.
+
+### Do not
+
+- Leave tables in compact/tight/hybrid form (`| foo | bar |` body with misaligned pipes).
+- Skip the formatter because “it’s only one row.”
+- Ask the user to call out MD060 — fix it in the same turn.
+
+### New tables
+
+Write cell content normally; run `format_md_tables.py` on the file immediately after.
