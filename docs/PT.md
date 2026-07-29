@@ -1,195 +1,98 @@
 # Power Transformer (PT)
 
-Center unit — mains in, secondaries to Power Board, heaters, and preamp ground. See also [`TRANSFORMERS.md`](TRANSFORMERS.md) (index), [`OT.md`](OT.md).
+**Unit:** Jolida SJ202A / JD202 · factory type **LM-9908P-A** class  
+**Photos:** [`pt.png`](../photos/pt.png) · [`transformers.png`](../photos/transformers.png)
 
-Factory type (secondary reference): **LM-9908P-A** class — [`schematic-comparison.md`](schematic-comparison.md).
+All PT leads are **18 AWG**, hardwired (no Molex). Keep twisted pairs twisted end-to-end. Identity = **coil color + continuity**, not tag number alone (tag **21** is reused — see below).
 
-Photos: [`pt.png`](../photos/pt.png), [`transformers.png`](../photos/transformers.png).
+**Harness extensions (2026-07-20):** new **18 AWG** pigtails soldered at the cut stubs; heat-shrink every joint. **Insulation dress** below is what you run in the chassis — coil colors at the PT body are unchanged for DCR ID.
 
----
-
-## Summary
-
-- **115 V in:** strap **RED1+RED2** → line, **ORG1+ORG2** → neutral
-- **RED/BLK:** ~300 V HV secondary → Power Board bridge → DC rails:
-  - **+B** (~425 V) — main plate supply (PCB silk; PDF **+B**)
-  - **+B1** (~370 V) — screens / drivers
-  - **+B2** (~220 V) — preamp
-- **BLU/BLU:** ~50 V aux secondary
-- **⊥ BLK:** ground tie
-- **YEL**, **BRN**, and **WHT** pairs: **6.3 V AC** heaters for the tube filaments
+**P-touch labels applied (2026-07-20):** **WALL AC**, **PT HV**, **70V IN**, **PT GND**, **PREAMP HEAT**, **V3/V4 HEAT** (**BLK/WHT**, coil **BRN/BRN**), **V7/V8 HEAT** (**YEL/YEL**). Detail: [`labels.md`](labels.md).
 
 ---
 
-## How to read the tables
+## Wire map
 
-| Column             | Meaning                                                                              |
-| ------------------ | ------------------------------------------------------------------------------------ |
-| **Signal**         | Electrical function (best estimate until meter confirms)                             |
-| **At transformer** | Insulation color on the **short lead exiting the coil**                              |
-| **After splice**   | Color on the **extension/harness** (yellow or green heat-shrink joints)              |
-| **Tag**            | Disassembly tag from [`wire-tags.md`](wire-tags.md)                                  |
-| **Goes to**        | Destination assembly                                                                 |
-| **Conf.**          | **High** = label or tag match · **Med** = photo + harness · **Low** = guess — verify |
+One **5.8 mm** sleeve over both legs of a twisted pair is OK if it fits ([`labels.md`](labels.md)).
 
-Splices are common on this unit. Always trust **continuity**, not color alone.
+| At PT coil            | Winding             | Tag(s)                  | Harness dress (extension) | P-touch label   | Goes to                                                                  |
+| --------------------- | ------------------- | ----------------------- | ------------------------- | --------------- | ------------------------------------------------------------------------ |
+| **RED1 + RED2**       | Primary hot (115 V) | **21**                  | **WHT**                   | **WALL AC**     | AC inlet **HOT** (fuse in this leg) — [`back-panel.md`](back-panel.md)   |
+| **ORG1 + ORG2**       | Primary neutral     | **23**                  | **BLK**                   | **WALL AC**     | AC inlet **NEUTRAL** (same label on **WHT/BLK** run)                     |
+| **RED + BLK**         | HV ~300 V AC        | **21** RED / **11** BLK | **RED + BLK** (same)      | **PT HV**       | Large Cap Board **AC IN** → bridge VD3–VD6 (**C1**)                      |
+| **BLU + BLU**         | 50 V aux            | **17** / **19**         | **BLU + BLU** (same)      | **70V IN**      | Large Cap Board **70V IN** (**C1**) → bias **−B** on large cap board     |
+| **BLK** (label **0**) | Ground reference    | **9**                   | **BLK** (same)            | **PT GND**      | Preamp board **GND** pour (bottom-left) — **not** Large Cap Board        |
+| **WHT + WHT**         | Heater 6.3 V        | **5**                   | **WHT + WHT** (same)      | **PREAMP HEAT** | Preamp board heaters (bottom-left edge)                                  |
+| **BRN + BRN**         | Heater 6.3 V        | —                       | **BLK + WHT** twisted     | **V3/V4 HEAT**  | **V3**, **V4** — pins **2 / 7** ([`8-pin-chassis.md`](8-pin-chassis.md)) |
+| **YEL + YEL**         | Heater 6.3 V        | —                       | **YEL + YEL** (same)      | **V7/V8 HEAT**  | **V7**, **V8** — pins **2 / 7**                                          |
 
----
+**C1** = only the HV pair + 50 V aux pair → Large Cap Board. Heaters, tag-9 GND, and mains primary are **not** C1.
 
-## Coil label
+**Do not** confuse harness **BLK/WHT** (**V3/V4 HEAT**, PT coil **BRN/BRN**) with OT primary **WHT** (UL screen on a different wire).
 
-Label on coil ([`pt.png`](../photos/pt.png)):
+### Primary strap (115 V)
+
+Mains is switched on the **front panel** (after the rear-panel **fuse**), then hardwired to the PT — not to the Large Cap Board **AC IN** ([`back-panel.md`](back-panel.md#mains-ac--two-nets-do-not-merge)).
 
 ```text
-0  300V  240V     300 mA
+IEC HOT  ──fuse──► switch ──► WHT  ──► splice ──► RED1 + RED2  (at PT)   label: WALL AC
+IEC NEUTRAL ────► switch ──► BLK  ──► splice ──► ORG1 + ORG2  (at PT)   label: WALL AC
+```
+
+Do **not** tie RED to ORG across halves. Do **not** series the two 115 V windings.
+
+### Tag 21 collision
+
+Same tag number, two different nets:
+
+| Tag **21** stub | Coil lead     | Destination           |
+| --------------- | ------------- | --------------------- |
+| HV secondary    | **RED** (HV)  | Large Cap Board AC IN |
+| Primary harness | **RED1/RED2** | AC inlet hot          |
+
+### Heater rules
+
+- Three **separate** windings (3 A each). **Do not parallel** the two EL34 windings (coil **BRN/BRN** vs **YEL/YEL**) unless you first meter **0 V AC** between the hot legs — wrong phase shorts the winding.
+- EL34 heater pairs have **no coil tags** — use **coil color at the PT** + your **V3/V4** / **V7/V8** labels on the harness.
+
+---
+
+## Coil label (as read)
+
+```text
+0  300V  240V     300 mA     ← use 300 V + 0; 240 V tap capped (unused)
    50V   0        100 mA
-   6.3V  0        3 A
-
-   6.3V  6.3V     3 A / 3 A
+   6.3V  0        3 A        ← WHT/WHT (left)
+   6.3V  6.3V     3 A / 3 A  ← **V3/V4 HEAT** BLK/WHT (coil BRN) · **V7/V8 HEAT** YEL/YEL
    115V
-   115V
-```
-
-Matches [`transformers.png`](../photos/transformers.png): **0 280V 300V**, dual **6.3 V @ 4 A**, **50 V**, dual **115 V** primary.
-
----
-
-## Left side of coil (top → bottom, bench 2026-07-06)
-
-Physical order at the coil. **Twisted pair** = two leads exit together; tags are on the **cut harness stubs**.
-
-| #     | Coil label (as read)          | Signal                             | Wires (at coil)   | Tag(s)     | Notes                                                                                                                                                              | Conf. |
-| ----- | ----------------------------- | ---------------------------------- | ----------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
-| PT-L1 | **0 / 300 V / 240 V**         | **HV AC** — 300 V ↔ 0 V            | **RED** + **BLK** | **21** RED | Twisted pair to Power Board **AC IN** → **VD3–VD6**                                                                                                                | High  |
-| PT-L2 | *(same HV group)*             | **HV return (0 V)**                | **BLK**           | **11** BLK | Same twisted pair as PT-L1; **240 V tap capped** (unused)                                                                                                          | High  |
-| PT-L3 | **50 V**                      | **50 V aux** (one end)             | **BLU**           | **17**     | Twisted pair; both legs **blue** at coil                                                                                                                           | High  |
-| PT-L4 | **50 V**                      | **50 V aux** (other end)           | **BLU**           | **19**     | Same twisted pair as PT-L3 → Power Board aux / **−B** path                                                                                                         | High  |
-| PT-L5 | **0** *(⊥ / upside-down “T”)* | **Ground reference** (label **0**) | **BLK**           | **9**      | **Preamp board GND** — large copper pour bottom-left between white ceramics ([`preamp board top.png`](../photos/preamp%20board%20top.png)); OL to **17/19** @ coil | High  |
-| PT-L6 | **6.3 V**                     | **Heater 6.3 V**                   | **WHT**           | **5**      | Twisted pair (both white); was drawn as preamp **tag 5** on hand sch.                                                                                              | High  |
-| PT-L7 | **6.3 V**                     | **Heater 6.3 V return**            | **WHT**           | **5**      | Same pair as PT-L6                                                                                                                                                 | High  |
-
-**50 V:** **BLU/BLU** (**17**, **19**) = one winding, **15 Ω** DCR. **Tag 9** (**PT-L5**) is the label **0** lead — **not** in the BLU pair electrically; terminates on **preamp board ground** (not bias trim pots, not Power Board AC IN).
-
-**HV:** **21 ↔ 11** = **25 Ω** DCR. Use **300 V** (red) and **0** (black). **240 V** is capped (unused).
-
----
-
-## DCR — bench measurements (2026-07-06)
-
-Meter on **coil leads only**; **200 Ω** range unless noted. **OL** = over-range on that scale (may hide high Ω — retry on **2 kΩ** if needed).
-
-| Measure (coil leads) | DCR   | Winding / note                                                |
-| -------------------- | ----- | ------------------------------------------------------------- |
-| **21 RED ↔ 11 BLK**  | 25 Ω  | **HV** 300 V ↔ 0 V — confirms **PT-L1/L2**                    |
-| **17 BLU ↔ 19 BLU**  | 15 Ω  | **50 V aux** — confirms **PT-L3/L4**                          |
-| **17 BLU ↔ 9 BLK**   | OL    | **PT-L5** not in BLU pair (on 200 Ω scale)                    |
-| **19 BLU ↔ 9 BLK**   | OL    | Same                                                          |
-| **WHT ↔ WHT**        | 2.5 Ω | **6.3 V** heater — **PT-L6/L7**                               |
-| **BRN ↔ BRN**        | 2.2 Ω | **6.3 V** heater — **PT-R1/R2**                               |
-| **YEL ↔ YEL**        | 2.2 Ω | **6.3 V** heater — **PT-R3/R4**                               |
-| **RED ↔ RED**        | OL    | Two **separate** 115 V primaries — not one continuous winding |
-| **ORG ↔ ORG**        | OL    | Same — parallel primaries, not series                         |
-| **RED1 ↔ ORG1**      | ~5 Ω  | Primary half **A** (meter read **0.005** — see note below)    |
-| **RED2 ↔ ORG2**      | ~5 Ω  | Primary half **B**                                            |
-| **RED1 ↔ ORG2**      | OL    | Halves isolated — **115 V parallel** wiring                   |
-| **RED2 ↔ ORG1**      | OL    | Same                                                          |
-
-**Primary note:** If the meter displayed **0.005** on a **kΩ** range, that is **5 Ω** — plausible for one 115 V half. If it truly read **0.005 Ω**, that is lead-resistance territory; the **pairing pattern** below still holds.
-
-**115 V operation:** Tie **RED1 + RED2** → hot (merged harness **tag 21**); tie **ORG1 + ORG2** → neutral (merged **tag 23**). Do **not** tie RED to ORG across halves.
-
-**Heaters:** three **isolated** ~2 Ω pairs — no **1×2 / 5×2 / 10×2** tags at coil.
-
-**Tags 17 / 19 / 11 / 21 on the PT** — hand schematic also placed these numbers on **OT speaker** or **preamp/power-board** paths. Treat **continuity from this coil lead** as authoritative; reassign OT/panel rows in [`wire-tags.md`](wire-tags.md) when stubs are buzzed.
-
-### Identify windings (PT only, no chassis)
-
-| Winding type             | Typical DCR / pattern                            |
-| ------------------------ | ------------------------------------------------ |
-| **Heater 6.3 V**         | Very low Ω (often **~0.5–2 Ω**); two leads       |
-| **HV secondary (300 V)** | Moderate Ω (tens–hundreds); two leads            |
-| **50 V aux**             | Lower than HV; two leads (**15 Ω** on this unit) |
-| **115 V primary**        | Low–moderate Ω per half; parallel for 115 V      |
-
----
-
-## Right side of coil (top → bottom, bench 2026-07-06)
-
-| #      | Coil label (as read) | Signal            | Wires (at coil)      | Tag(s)   | Notes                                                            | Conf.                                                           |      |
-| ------ | -------------------- | ----------------- | -------------------- | -------- | ---------------------------------------------------------------- | --------------------------------------------------------------- | ---- |
-| PT-R1  | **6.3 V** *(“6 W”?)* | **Heater 6.3 V**  | **BRN** + **BRN**    | —        | Twisted pair; no disassembly tag at coil                         | High                                                            |      |
-| PT-R2  | *(same pair)*        | **Heater return** | **BRN**              | —        |                                                                  | High                                                            |      |
-| PT-R3  | **6.3 V**            | **Heater 6.3 V**  | **YEL** + **YEL**    | —        | Second filament winding on this side                             | High                                                            |      |
-| PT-R4  | *(same pair)*        | **Heater return** | **YEL**              | —        | Not the old **1×2** / **5×2** pair labels — those not seen on PT | High                                                            |      |
-| PT-R5a | *(half A)*           | **115 V**         | **Primary hot A**    | **RED1** | **21**                                                           | **RED1↔ORG1** ~5 Ω; merged with RED2 → AC hot                   | High |
-| PT-R5b | *(half B)*           | **115 V**         | **Primary hot B**    | **RED2** | **21**                                                           | **RED2↔ORG2** ~5 Ω; merged with RED1 at harness                 | High |
-| PT-R6a | *(half A)*           | **115 V**         | **Primary return A** | **ORG1** | **23**                                                           | Paired with RED1; merged at harness (may read BLK after splice) | High |
-| PT-R6b | *(half B)*           | **115 V**         | **Primary return B** | **ORG2** | **23**                                                           | Paired with RED2                                                | High |
-
-**Tag 21 collision (resolved):** Same tag number on **two different cuts** — not one net.
-
-| Tag **21** stub | Coil lead            | Destination                                        |
-| --------------- | -------------------- | -------------------------------------------------- |
-| HV secondary    | **PT-L1** **RED**    | Power Board **AC IN** → bridge (**300 V** winding) |
-| Primary harness | **PT-R5a/b** **RED** | **AC inlet** hot (115 V mains)                     |
-
-**Dual 115 V primaries:** **RED1↔ORG1** and **RED2↔ORG2** only — classic **parallel** strap for **115 V** mains (both coil labels **115 V**).
-
----
-
-## Harness notes
-
-- **C1** ([`CONNECTORS.md`](CONNECTORS.md)): all PT exits above, **18 AWG**, hardwired to Power Board. **Keep twisted pairs twisted** through splices.
-- **Three** separate **6.3 V** pairs: **WHT/WHT** (tag **5**, left), **BRN/BRN**, **YEL/YEL** (right, untagged at coil).
-- Photo-based splice colors (green extensions on [`pt.png`](../photos/pt.png)) describe **harness dress**, not necessarily coil-end colors — **bench tables above override** photo guesses where they differ.
-- Wires in [`transformers.png`](../photos/transformers.png) use **green** heat-shrink on many PT splices (vs **yellow** on OT).
-
-### Diagram (logical)
-
-```mermaid
-flowchart LR
-    AC[AC inlet 115 V]
-    PTnode[Power Transformer]
-    PB[Power Board]
-    HT[Heater bus]
-
-    AC -->|PT-R5a/b PT-R6a/b primary| PTnode
-    PTnode -->|PT-L1 PT-L2 HV| PB
-    PTnode -->|PT-L3 PT-L4 50 V| PB
-    PTnode -->|PT-L6 PT-L7 PT-R1 PT-R2 PT-R3 PT-R4| HT
+   115V                      ← parallel for 115 V mains
 ```
 
 ---
 
-## Bench worksheet (disassembled)
+## DCR (coil leads only — for ID)
 
-Record **lead-to-lead Ω** on the PT only. Match **tagged harness stubs** to leads by color + tag notes.
-
-| Lead ID | Partner lead(s) | R (Ω)   | Winding group                  | Tag(s)         |
-| ------- | --------------- | ------- | ------------------------------ | -------------- |
-| PT-L1   | PT-L2           | **25**  | HV 300 V ↔ 0 V                 | 21 RED, 11 BLK |
-| PT-L3   | PT-L4           | **15**  | 50 V aux (2-wire)              | 17, 19         |
-| PT-L5   | *(not 17/19)*   | **OL**  | GND ref → preamp board (tag 9) | 9              |
-| PT-L6   | PT-L7           | **2.5** | Heater 6.3 V                   | 5              |
-| PT-R1   | PT-R2           | **2.2** | Heater 6.3 V                   | —              |
-| PT-R3   | PT-R4           | **2.2** | Heater 6.3 V                   | —              |
-| PT-R5a  | PT-R6a (ORG1)   | **~5**  | Primary half A                 | 21 / 23        |
-| PT-R5b  | PT-R6b (ORG2)   | **~5**  | Primary half B                 | 21 / 23        |
+| Pair            | DCR   | Winding                              |
+| --------------- | ----- | ------------------------------------ |
+| RED ↔ BLK (HV)  | 25 Ω  | HV 300 V ↔ 0                         |
+| BLU ↔ BLU       | 15 Ω  | 50 V aux                             |
+| BLU ↔ tag-9 BLK | OL    | GND is separate                      |
+| WHT ↔ WHT       | 2.5 Ω | Preamp heater                        |
+| BRN ↔ BRN       | 2.2 Ω | **V3/V4 HEAT** (harness **BLK/WHT**) |
+| YEL ↔ YEL       | 2.2 Ω | **V7/V8 HEAT**                       |
+| RED1 ↔ ORG1     | ~5 Ω  | Primary half A                       |
+| RED2 ↔ ORG2     | ~5 Ω  | Primary half B                       |
+| RED1 ↔ ORG2     | OL    | Halves isolated                      |
 
 ---
 
 ## Related
 
-- [`wire-tags.md`](wire-tags.md) — tag index
-- [`CONNECTORS.md`](CONNECTORS.md) — **C1** PT → Power Board
-- [`power-board.md`](power-board.md) — what HV and 50 V become after the board
+- [`large-cap-board.md`](large-cap-board.md) — **C1** landings; what HV / 50 V become after the board
+- [`preamp-board.md`](preamp-board.md) — **PREAMP HEAT** (**WHT/WHT**) + **PT GND** (tag **9**)
+- [`8-pin-chassis.md`](8-pin-chassis.md) — **V3/V4 HEAT** / **V7/V8 HEAT** pairs
+- [`labels.md`](labels.md) — P-touch queue
+- [`back-panel.md`](back-panel.md) — AC inlet / primary
 - [`OT.md`](OT.md) — output transformers (separate units)
-
----
-
-## Changelog
-
-| Date       | Change                                                                              |
-| ---------- | ----------------------------------------------------------------------------------- |
-| 2026-07-06 | Split from `TRANSFORMERS.md`; bench ID and DCR from coil work                       |
-| 2026-07-06 | Primary DCR: dual 115 V halves RED1↔ORG1 & RED2↔ORG2 ~5 Ω; parallel strap for 115 V |
+- [`../archive/wire-tags.md`](../archive/wire-tags.md) — full tag index
+- [`../archive/TRANSFORMERS.md`](../archive/TRANSFORMERS.md) — older long-form notes

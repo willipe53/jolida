@@ -1,312 +1,181 @@
 # Output Transformers (OT)
 
-Two identical units — one per channel. Primaries → **8-pin Chassis**; secondaries → rear-panel speaker posts. See also [`TRANSFORMERS.md`](TRANSFORMERS.md) (index), [`PT.md`](PT.md).
+**Unit:** Jolida SJ202A / JD202 · factory type **LM-9914U** (PDF **T1**)  
+**Photos:** [`ot-1.png`](../photos/ot-1.png) · [`ot-2.png`](../photos/ot-2.png) · [`ot-3.png`](../photos/ot-3.png) · [`ot-4.png`](../photos/ot-4.png)
 
-Factory type (secondary reference): **LM-9914U** — factory **T1** in [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) ([`_sch-page-1.png`](_sch-page-1.png)).
+Two identical units (one per channel). All leads **hardwired** — no Molex. **BRN appears on both sides** — two different wires. Trust **coil color**, not panel-end color after splices. EL34 designators **V3/V4** (LFT) and **V7/V8** (RT): [`tubes.md`](tubes.md).
 
-| Unit   | Photos                                                             | Notes                                                           |
-| ------ | ------------------------------------------------------------------ | --------------------------------------------------------------- |
-| Unit 1 | [`ot-1.png`](../photos/ot-1.png), [`ot-2.png`](../photos/ot-2.png) | Same part — assign **LFT** or **RT** by stub tags at reassembly |
-| Unit 2 | [`ot-3.png`](../photos/ot-3.png), [`ot-4.png`](../photos/ot-4.png) | Same part — other channel                                       |
-
-**Both OT units are identical.** Channel is **not** fixed to unit 1 vs unit 2 — it is fixed by **disassembly tags** on the speaker stubs ([`hand_schematic.png`](../photos/hand_schematic.png)).
+**Bench ID only:** if coil colors are missing, meter the bare OT — [`../archive/ot-bench-notes.md`](../archive/ot-bench-notes.md) (DCR matrix). That table does **not** tell you where to solder; this doc does.
 
 ---
 
-## Output Transformer Summary
+## Bench verification (both OTs — no “power-up” on the OT)
 
-Each OT has **five primary leads** (**RED, YEL, ORG, WHT, BRN** → **8-pin Chassis**) and **three secondary leads** (**BLU, BRN, BLK** → rear-panel speaker posts). One **T1** / **LM-9914U** per channel (**V3/V4** left, **V7/V8** right).
+An OT has **no safe standalone mains test**. You do **not** apply wall voltage to OT primaries or secondaries by themselves. Validation is **cold Ω** now; **hot** checks wait until **Part 3/4** (+B at **+B LEFT** / **+B RIGHT** through the Large Cap Board, tubes out).
 
-### Primary — tube side
+**Power off, unplugged.** One OT at a time, no boards or sockets wired to the leads. Probe the **applied P-touch labels** on the harness ([`labels.md`](labels.md)) — dress insulation may not match factory coil color (e.g. no brown on **LEFT 8Ω** / **RIGHT 8Ω** or on **V4 PIN 3** / **V8 PIN 3**).
 
-Five taps on **one primary winding** in an **ultra-linear push-pull** pair (EL34s **V3 + V4** per channel):
+**LFT OT** (labels **+B LEFT**, **V3 PIN 3/4**, **V4 PIN 3/4**, **LEFT COM**, **LEFT 4Ω**, **LEFT 8Ω**):
 
-| PDF connection | What it is        | Hooked to                           |
-| -------------- | ----------------- | ----------------------------------- |
-| Upper end      | **Plate**         | EL34 **pin 3** (one tube)           |
-| Next           | **UL tap**        | EL34 **pin 4** (screen, same tube)  |
-| Center         | **B+ center tap** | **+B** rail (~**425 V** DC)         |
-| Next           | **UL tap**        | EL34 **pin 4** (screen, other tube) |
-| Lower end      | **Plate**         | EL34 **pin 3** (other tube)         |
+| Step | Meter                                                                            | Pass                                          |
+| ---- | -------------------------------------------------------------------------------- | --------------------------------------------- |
+| 1    | **+B LEFT** ↔ **V3 PIN 3** and **+B LEFT** ↔ **V4 PIN 3**                        | ~**53 Ω** each (CT to each plate half)        |
+| 2    | **V3 PIN 3** ↔ **V3 PIN 4**; **V4 PIN 3** ↔ **V4 PIN 4**                         | ~**36 Ω** each (twisted pairs — do not split) |
+| 3    | **V3 PIN 3** ↔ **V4 PIN 3**                                                      | ~**103 Ω** (full primary)                     |
+| 4    | Any **+B LEFT** or **V3/V4 PIN 3/4** ↔ **LEFT COM**, **LEFT 4Ω**, or **LEFT 8Ω** | **OL** (primary–secondary isolation)          |
 
-The phase inverter (**12AT7**) drives the two EL34 **grids** out of phase. One tube pulls current up through its half of the primary; the other pulls down. The **AC** component in that push-pull current is what the core couples to the speaker winding. The **UL taps** feed the screen grids from partway out on the primary — classic UL compromise between pentode power and triode-like distortion.
+**RT OT** ( **+B RIGHT**, **V7 PIN 3/4**, **V8 PIN 3/4**, **RIGHT COM**, **RIGHT 4Ω**, **RIGHT 8Ω**): same Ω pattern — swap names in step 1–4. Compare both units (README **T-2**). Reference matrix at bare coil: [`ot-bench-notes`](../archive/ot-bench-notes.md).
 
-The five coil colors are those five roles. The PDF does not show which color is which — that is still **T-2** at reassembly.
+Optional: confirm **LFT** vs **RT** stub tags **1/15/19** vs **11/17/13** at the transformer body before panel terminations.
 
-### Secondary — speaker side
-
-| PDF label | Function   | Hooked to                 |
-| --------- | ---------- | ------------------------- |
-| **8 Ω**   | 8 Ω tap    | Rear **8 Ω** post         |
-| **4 Ω**   | 4 Ω tap    | Rear **4 Ω** post         |
-| **0**     | **Common** | Rear **G** post → **GND** |
-
-One secondary winding, three taps. Strap the speaker between **0 (G)** and **4 Ω** or **8 Ω**. At the coil:
-
-| Coil color | Tap       |
-| ---------- | --------- |
-| **BLK**    | **0** (G) |
-| **BLU**    | **4 Ω**   |
-| **BRN**    | **8 Ω**   |
-
-*(Secondary **BRN** — not the same wire as primary **BRN**.)* Panel-end colors may differ after harness splices; coil colors are authoritative.
+**After Large Cap Board is live (Part 3 gate, tubes out):** confirm **+B DC** at **+B LEFT** and **+B RIGHT**. That proves the **C3** feed and CT connection — not audio performance (that needs tubes and load).
 
 ---
 
-## How to read the tables
+## How to connect (one OT = one channel)
 
-| Column             | Meaning                                                                              |
-| ------------------ | ------------------------------------------------------------------------------------ |
-| **Signal**         | Electrical function (best estimate until meter confirms)                             |
-| **At transformer** | Insulation color on the **short lead exiting the coil**                              |
-| **After splice**   | Color on the **extension/harness** (yellow or green heat-shrink joints)              |
-| **Tag**            | Disassembly tag from [`wire-tags.md`](wire-tags.md)                                  |
-| **Goes to**        | Destination assembly                                                                 |
-| **Conf.**          | **High** = label or tag match · **Med** = photo + harness · **Low** = guess — verify |
+Each OT has **five primary** leads → **8-pin chassis** + **+B** from the Large Cap Board, and **three secondary** leads → **back-panel** speaker posts (plus **panel-side tees** on **G** and **8 Ω** only — not extra OT wires).
 
-Splices are common on this unit. Always trust **continuity**, not color alone.
+**Rebuild primary landing (2026-07-20):** twist **ORG+YEL** to one socket, **BRN+WHT** to the other — never split a pair. Same assignment both channels:
 
----
-
-## Role in the amp
-
-Each OT has:
-
-- **Primary side** → **8-pin Chassis** (plates / ultralinear — hardwired, not C4)
-- **Secondary side** → **Back Panel** speaker binding posts (**0**, **4 Ω**, **8 Ω**)
-
-### Channel assignment (from hand schematic)
-
-[`hand_schematic.png`](../photos/hand_schematic.png) labels the rear-panel strip **LFT** vs **RT** and ties each speaker stub to a channel:
-
-| Channel | OT secondary tags      | Panel posts                     |
-| ------- | ---------------------- | ------------------------------- |
-| **LFT** | **1**, **15**, **19**  | **G**, **4 Ω**, **8 Ω** (left)  |
-| **RT**  | **11**, **17**, **13** | **G**, **4 Ω**, **8 Ω** (right) |
-
-At reassembly: the OT whose stubs carry **1 / 15 / 19** → **LFT**; the OT whose stubs carry **11 / 17 / 13** → **RT**. Parts are interchangeable electrically; matching the original tag grouping is for consistency.
-
-| Speaker post       | Tag | Color at panel end (after splices) |
-| ------------------ | --- | ---------------------------------- |
-| **LFT G** (common) | 1   | BLK                                |
-| **LFT 4 Ω**        | 15  | BLK (was BLU at OT)                |
-| **LFT 8 Ω**        | 19  | BLU (was BRN / PRP)                |
-| **RT G** (common)  | 11  | BRN (was BLK)                      |
-| **RT 4 Ω**         | 17  | BLU (was YEL)                      |
-| **RT 8 Ω**         | 13  | RED (was BRN / PRP)                |
-
----
-
-## Bench meter checklist (OT only, no chassis)
-
-You **already know** which side is which, and secondary tap colors at the coil:
-
-- **5-lead side** (**RED, YEL, ORG, WHT, BRN**) = **primary** → 8-pin / EL34
-- **3-lead side:** **BLK** = **G**, **BLU** = **4 Ω**, **BRN** = **8 Ω** → speaker posts
-
-Optional meter work here is **sanity-check only** (confirm the two winding groups). The open mapping is **T-2** only: which primary color is **plate / UL / B+ CT**.
-
-**Setup:** OT sitting alone. **No** tubes, boards, or harness stubs connected. DMM on **Ω** (start at **200 Ω**; use **2 kΩ** if the display reads **OL**).
-
-### Step 1 — Confirm the two winding groups (optional)
-
-| Test                                       | Expect                                                 |
-| ------------------------------------------ | ------------------------------------------------------ |
-| Any **two** of the **five** primary colors | **Continuity** (low Ω — tens to hundreds on primary)   |
-| Any **two** of **BLU / BRN / BLK**         | **Continuity** (low Ω — often **~1–5 Ω** on secondary) |
-| One primary color ↔ one secondary color    | **OL** (no connection — separate windings)             |
-
-If that pattern fails, stop and re-check which wires belong to this OT.
-
-### Step 2 — Primary: find center tap and ends (closes **T-2**)
-
-On **RED, YEL, ORG, WHT, BRN** only, measure each pair (ten readings). Sort from **highest Ω to lowest**.
-
-| Pattern                     | What it usually means                       |
-| --------------------------- | ------------------------------------------- |
-| **Highest** pair            | **Plate ↔ plate** (far ends of the winding) |
-| **~Half** of that value     | **Center tap (B+) ↔ plate**                 |
-| **Lower** than center↔plate | **UL tap ↔ center** or **UL ↔ plate**       |
-
-The lead that reads **~half** of the max plate-to-plate value against **both** far ends is the **B+ center tap**. The two far ends are **plates**; the two in between are **UL screen taps** (factory PDF order — see [Factory schematic](#factory-schematic--t1-lm-9914u)).
-
-Final proof is at **reassembly**: connect one 8-pin socket, power up gently, and confirm **+B** lands on the center-tap wire.
-
-Record results in the [Bench worksheet](#bench-worksheet-disassembled) below.
-
----
-
-## Physical lead inventory (bench-confirmed)
-
-Each OT has **eight leads total** — **five on one side**, **three on the other**. **No duplicate colors on one side** (only one **RED**). **BRN appears on both sides** — two **different** wires.
-
-| Side          | Colors (at coil)            | Count | Destination                                           | Photos                                                             |
-| ------------- | --------------------------- | ----- | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| **Primary**   | **RED, YEL, ORG, WHT, BRN** | 5     | **8-pin Chassis** / EL34 push-pull                    | [`ot-1.png`](../photos/ot-1.png), [`ot-4.png`](../photos/ot-4.png) |
-| **Secondary** | **BLU, BRN, BLK**           | 3     | **BLU** → **4 Ω**, **BRN** → **8 Ω**, **BLK** → **G** | [`ot-2.png`](../photos/ot-2.png), [`ot-3.png`](../photos/ot-3.png) |
-
-Both OT units match this inventory ([`ot-1`…`ot-4`](../photos/)). Primary-side extensions often use **yellow** “WTT TUBE 125°C” heat-shrink; secondary leads may use the same sleeve at the body.
-
-The same **5 + 3** pinout appears on factory **T1** (**LM-9914U**) in [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) — see [`_sch-page-1.png`](_sch-page-1.png). **Primary** color → role is still **T-2**; **secondary** colors are fixed at the coil (**BLK** / **BLU** / **BRN**).
-
----
-
-## Factory schematic — T1 (LM-9914U)
-
-Source: [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) (JD202A.s01, 2002-04-19). One **T1** per channel (**V3/V4** left, **V7/V8** right). Part marking: **LM-9914U**.
-
-### Primary — five connections (tube / 8-pin side)
-
-Ultra-linear **push-pull**: two **EL34** plates, two **UL screen taps**, one **B+ center tap** on **+B (+425 V)**.
-
-| PDF order (schematic) | Electrical function | Connects to                              |
-| --------------------- | ------------------- | ---------------------------------------- |
-| 1 — upper end         | **Plate**           | EL34 **pin 3** (one tube, e.g. **V3**)   |
-| 2                     | **UL tap**          | EL34 **pin 4** (screen, same tube)       |
-| 3 — center            | **Center tap (B+)** | **+B** rail (~425 V DC)                  |
-| 4                     | **UL tap**          | EL34 **pin 4** (other tube, e.g. **V4**) |
-| 5 — lower end         | **Plate**           | EL34 **pin 3** (other tube)              |
-
-Bench colors (**RED, YEL, ORG, WHT, BRN**) map to these five roles — **T-2** (Ω groups + one 8-pin socket at a time). PDF does not show harness colors.
-
-### Secondary — three connections (speaker side)
-
-| PDF label | Function | Connects to                     |
-| --------- | -------- | ------------------------------- |
-| **8 Ω**   | 8 Ω tap  | Rear-panel **8 Ω** binding post |
-| **4 Ω**   | 4 Ω tap  | Rear-panel **4 Ω** binding post |
-| **0**     | Common   | Rear-panel **G** post → **GND** |
-
-Bench colors at the coil: **BLK** → **0**, **BLU** → **4 Ω**, **BRN** → **8 Ω**. Panel-end colors often differ after splices.
+| Tube   | Channel | OT primary pair (pins **3** / **4**) |
+| ------ | ------- | ------------------------------------ |
+| **V3** | LFT     | **ORG** + **YEL**                    |
+| **V4** | LFT     | **BRN** + **WHT**                    |
+| **V7** | RT      | **ORG** + **YEL**                    |
+| **V8** | RT      | **BRN** + **WHT**                    |
 
 ```text
-        V3 plate ────────┐
-        V3 screen (UL) ──┤
-              +B CT ─────┼── T1 LM-9914U ──┬── 8 Ω  → panel
-        V4 screen (UL) ──┤                 ├── 4 Ω  → panel
-        V4 plate ────────┘                 └── 0    → GND / panel G
+                    Large Cap Board +B pour (C3 RED, tags 13 / 23)
+                              │
+PRIMARY (5)                   ▼
+  RED ───────────── OT center tap (same wire, or splice at OT stub)
+
+  ORG ── pin 3 ── V3 (LFT)     YEL ── pin 4 ── V3
+  BRN ── pin 3 ── V4 (LFT)     WHT ── pin 4 ── V4
+
+  ORG ── pin 3 ── V7 (RT)     YEL ── pin 4 ── V7
+  BRN ── pin 3 ── V8 (RT)     WHT ── pin 4 ── V8
+
+SECONDARY (3) → back panel
+  BLK ── speaker G post (+ second BLK from post → preamp GND — see back-panel)
+  BLU ── speaker 4 Ω post
+  BRN ── speaker 8 Ω post (+ PRP NFB from post → preamp — not from OT coil)
 ```
 
-## Unit 1 vs unit 2 — photo comparison
-
-| View               | OT unit 1                        | OT unit 2                        | Match?                                                     |
-| ------------------ | -------------------------------- | -------------------------------- | ---------------------------------------------------------- |
-| Secondary (3-lead) | [`ot-2.png`](../photos/ot-2.png) | [`ot-3.png`](../photos/ot-3.png) | **Same** — **BLU, BRN, BLK**                               |
-| Both sides         | [`ot-1.png`](../photos/ot-1.png) | [`ot-4.png`](../photos/ot-4.png) | **Same** — **RED, YEL, ORG, WHT, BRN** + **BLU, BRN, BLK** |
-
-**Conclusion:** Both units are the **same OT part**; only L/R channel assignment differs.
+Detail: [`8-pin-chassis.md`](8-pin-chassis.md) · [`back-panel.md`](back-panel.md) · [`large-cap-board.md`](large-cap-board.md) (**C3**).
 
 ---
 
-## Primary side — five leads (8-pin / EL34)
+## Primary — coil color → tube → pin
 
-**RED, YEL, ORG, WHT, BRN** → **8-pin Chassis**. Matches factory **T1** primary count ([`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf)): two **plates**, two **UL screen taps**, one **+B center tap** — see table above.
+Ultralinear push-pull. **ORG+YEL** and **BRN+WHT** are the only valid pairs ([`8-pin-chassis.md`](8-pin-chassis.md)).
 
-| #   | At transformer | Factory role (PDF) | Goes to               | Conf. |
-| --- | -------------- | ------------------ | --------------------- | ----- |
-| P?  | **RED**        | Plate / UL / B+ CT | EL34 socket or **+B** | Low   |
-| P?  | **YEL**        | Plate / UL / B+ CT | EL34 socket or **+B** | Low   |
-| P?  | **ORG**        | Plate / UL / B+ CT | EL34 socket or **+B** | Low   |
-| P?  | **WHT**        | Plate / UL / B+ CT | EL34 socket or **+B** | Low   |
-| P?  | **BRN**        | Plate / UL / B+ CT | EL34 socket or **+B** | Low   |
+| Coil color | Lands on  | Tube           | EL34 pin                                            |
+| ---------- | --------- | -------------- | --------------------------------------------------- |
+| **RED**    | **+B CT** | —              | **C3** **RED** → OT **RED** stub (not a socket pin) |
+| **ORG**    | Plate     | **V3**, **V7** | **3**                                               |
+| **YEL**    | UL screen | **V3**, **V7** | **4** (twist with **ORG**)                          |
+| **BRN**    | Plate     | **V4**, **V8** | **3**                                               |
+| **WHT**    | UL screen | **V4**, **V8** | **4** (twist with **BRN**)                          |
 
-**Not** the same **BRN** as on the secondary side. Assign **P1–P5** to PDF roles at bench (**T-2**).
+| Channel | **C3** +B feed tag | P-touch label | Tubes on this OT |
+| ------- | ------------------ | ------------- | ---------------- |
+| **LFT** | **13** RED         | **+B LEFT**   | **V3** + **V4**  |
+| **RT**  | **23** RED         | **+B RIGHT**  | **V7** + **V8**  |
 
----
+**+B wiring:** both tags are **18 AWG RED** from the **same Large Cap Board +B pour** (~425 V at the top cap stack) — two wires, one node ([`large-cap-board.md`](large-cap-board.md)). **Board end:** solder each at **+B**. **OT end:** join to that channel’s **RED** center-tap lead. That is a straight high-voltage run — **not** a socket pin, **not** the **TP1** bias header (those five pads are **GRN** pin-8 sense only). Swapping tag **13** vs **23** between channels is electrically fine if each OT stays matched to its sockets and speaker posts.
 
-## Secondary side — three leads (speaker posts)
-
-**BLU, BRN, BLK** → rear-panel binding posts. Matches factory **T1** secondary: **8 Ω**, **4 Ω**, **0** (common → **GND**) — see table above.
-
-| #   | At transformer | Factory role (PDF) | Goes to                 | Conf. |
-| --- | -------------- | ------------------ | ----------------------- | ----- |
-| S1  | **BLK**        | **0** (common)     | Back panel **G** post   | High  |
-| S2  | **BLU**        | **4 Ω** tap        | Back panel **4 Ω** post | High  |
-| S3  | **BRN**        | **8 Ω** tap        | Back panel **8 Ω** post | High  |
-
-Panel-end colors often **differ** after harness splices — see speaker table above and [`hand-schematic-notes.md`](hand-schematic-notes.md).
-
-**Not** the same **BRN** as on the primary side.
-
-### Diagram (one channel — duplicate per OT unit)
-
-```mermaid
-flowchart LR
-    OTnode[Output Transformer]
-    OCT[8-pin Chassis EL34 plates]
-    BP[Back Panel speaker posts]
-
-    OTnode -->|P1…P5 RED YEL ORG WHT BRN| OCT
-    OTnode -->|S1…S3 BLU BRN BLK| BP
-```
+Labels: [`labels.md`](labels.md) — **+B LEFT/RIGHT**, **V3–V8 PIN 3/4**, **LEFT/RIGHT COM/4Ω/8Ω** ( **LEFT** = LFT channel, **RIGHT** = RT).
 
 ---
 
-## Bench worksheet (disassembled)
+## Secondary — coil color → signal → destination
 
-Do **unit 1** and **unit 2** on separate sheets; compare — groups should match if parts are identical.
+| Coil color | Signal name | P-touch (OT coil)            | OT lead connects to                  | Also at panel (not from OT coil)                                                                               |
+| ---------- | ----------- | ---------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **BLK**    | **0 / G**   | **LEFT COM** / **RIGHT COM** | Speaker **G** post — heavier **BLK** | Second **BLK** **G** post → preamp **GND** pour (unlabeled batch)                                              |
+| **BLU**    | **4 Ω**     | **LEFT 4Ω** / **RIGHT 4Ω**   | Speaker **4 Ω** post — one wire only | —                                                                                                              |
+| **BRN**    | **8 Ω**     | **LEFT 8Ω** / **RIGHT 8Ω**   | Speaker **8 Ω** post — one wire only | **LEFT FEEDBACK** / **RIGHT FEEDBACK** from **8 Ω** post → preamp **LFN** / **RFN** ([`labels.md`](labels.md)) |
 
-### Winding groups
+Speaker straps between **G** and either **4 Ω** or **8 Ω**. **G** signal **BLK** and RCA **shells** → **Large Cap Board GND pour**; preamp reference via **C2** + **PT GND** ([`chassis.md`](chassis.md)).
 
-| Lead ID  | Partner lead(s)   | R (Ω) | Primary or secondary? | Tag on stub (if any)        |
-| -------- | ----------------- | ----- | --------------------- | --------------------------- |
-| P1 (RED) |                   |       | Primary (5-lead side) |                             |
-| P2 (YEL) |                   |       |                       |                             |
-| P3 (ORG) |                   |       |                       |                             |
-| P4 (WHT) |                   |       |                       |                             |
-| P5 (BRN) |                   |       |                       |                             |
-| S1 (BLK) | S2 (BLU) S3 (BRN) |       | Secondary (3-lead)    | 1 / 15 / 19 or 11 / 17 / 13 |
-| S2 (BLU) | S1, S3            |       |                       |                             |
-| S3 (BRN) | S1, S2            |       |                       |                             |
-
-### Channel assignment (at reassembly)
-
-| Decision                    | Record here                                                 |
-| --------------------------- | ----------------------------------------------------------- |
-| OT with tags **1, 15, 19**  | **LFT**                                                     |
-| OT with tags **11, 17, 13** | **RT**                                                      |
-| Swap units?                 | **No** — reassemble to match hand schematic for consistency |
-
-### Tagged stub inventory
-
-| Tag | Stub color | OT unit | Lead ID | Was going to (from hand schematic) |
-| --- | ---------- | ------- | ------- | ---------------------------------- |
-| 1   |            | LFT     | S1 BLK  | LFT G                              |
-| 15  |            | LFT     | S2 BLU  | LFT 4 Ω                            |
-| 19  |            | LFT     | S3 BRN  | LFT 8 Ω                            |
-| 11  |            | RT      | S1 BLK  | RT G                               |
-| 17  |            | RT      | S2 BLU  | RT 4 Ω                             |
-| 13  |            | RT      | S3 BRN  | RT 8 Ω                             |
+**Dress:** do not twist secondary **BLK / BLU / BRN** together — three separate taps. Loose harness or cable tie to the back panel is enough.
 
 ---
 
-## Open items
+## Channel assignment (LFT vs RT)
 
-| ID      | Question                               | Status / action                                                                                                              |
-| ------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **T-1** | Which OT is **Left** vs **Right**?     | **Closed** — **LFT** stubs **1, 15, 19**; **RT** stubs **11, 17, 13** ([`hand_schematic.png`](../photos/hand_schematic.png)) |
-| **T-2** | Which color is **plate / UL / B+ CT**? | Topology fixed by PDF (**5** roles); buzz **RED, YEL, ORG, WHT, BRN** to 8-pin / **+B** at reassembly                        |
+Parts are interchangeable. Match original stub tags at reassembly:
+
+| Channel | Secondary tags         | Panel posts             |
+| ------- | ---------------------- | ----------------------- |
+| **LFT** | **1**, **15**, **19**  | **G**, **4 Ω**, **8 Ω** |
+| **RT**  | **11**, **17**, **13** | **G**, **4 Ω**, **8 Ω** |
+
+| Post        | Tag | Coil color | Signal    |
+| ----------- | --- | ---------- | --------- |
+| **LFT G**   | 1   | **BLK**    | OT common |
+| **LFT 4 Ω** | 15  | **BLU**    | 4 Ω tap   |
+| **LFT 8 Ω** | 19  | **BRN**    | 8 Ω tap   |
+| **RT G**    | 11  | **BLK**    | OT common |
+| **RT 4 Ω**  | 17  | **BLU**    | 4 Ω tap   |
+| **RT 8 Ω**  | 13  | **BRN**    | 8 Ω tap   |
+
+Panel-end insulation colors may differ after splices — use **tag + coil color** at the OT stub.
+
+---
+
+## Rebuild worksheet (☐ per OT)
+
+### LFT OT (**V3** + **V4**, tag **13** +B)
+
+| Coil | P-touch label | Tube / signal | Pin or destination       | ☐   |
+| ---- | ------------- | ------------- | ------------------------ | --- |
+| RED  | **+B LEFT**   | +B CT         | PWR **+B** → OT RED stub | ☐   |
+| ORG  | **V3 PIN 3**  | **V3** plate  | **V3** pin **3**         | ☐   |
+| YEL  | **V3 PIN 4**  | **V3** UL     | **V3** pin **4** (∥ ORG) | ☐   |
+| BRN  | **V4 PIN 3**  | **V4** plate  | **V4** pin **3**         | ☐   |
+| WHT  | **V4 PIN 4**  | **V4** UL     | **V4** pin **4** (∥ BRN) | ☐   |
+| BLK  | **LEFT COM**  | G             | LFT speaker **G** post   | ☐   |
+| BLU  | **LEFT 4Ω**   | 4 Ω           | LFT **4 Ω** post         | ☐   |
+| BRN  | **LEFT 8Ω**   | 8 Ω           | LFT **8 Ω** post         | ☐   |
+
+### RT OT (**V7** + **V8**, tag **23** +B)
+
+| Coil | P-touch label | Tube / signal | Pin or destination       | ☐   |
+| ---- | ------------- | ------------- | ------------------------ | --- |
+| RED  | **+B RIGHT**  | +B CT         | PWR **+B** → OT RED stub | ☐   |
+| ORG  | **V7 PIN 3**  | **V7** plate  | **V7** pin **3**         | ☐   |
+| YEL  | **V7 PIN 4**  | **V7** UL     | **V7** pin **4** (∥ ORG) | ☐   |
+| BRN  | **V8 PIN 3**  | **V8** plate  | **V8** pin **3**         | ☐   |
+| WHT  | **V8 PIN 4**  | **V8** UL     | **V8** pin **4** (∥ BRN) | ☐   |
+| BLK  | **RIGHT COM** | G             | RT speaker **G** post    | ☐   |
+| BLU  | **RIGHT 4Ω**  | 4 Ω           | RT **4 Ω** post          | ☐   |
+| BRN  | **RIGHT 8Ω**  | 8 Ω           | RT **8 Ω** post          | ☐   |
+
+Panel tees (**G** → preamp **GND**, **8 Ω** → **PRP** NFB): [`back-panel.md`](back-panel.md).
 
 ---
 
 ## Related
 
-- [`wire-tags.md`](wire-tags.md) — tag index (speaker paths)
-- [`hand-schematic-notes.md`](hand-schematic-notes.md) — harness map
-- [`CONNECTORS.md`](CONNECTORS.md) — OT primaries hardwired on 8-pin chassis; **not** on C1
-- [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) — factory **T1** / **LM-9914U** pinout ([`_sch-page-1.png`](_sch-page-1.png))
+- [`tubes.md`](tubes.md) — **V3/V4/V7/V8** designators, mirror vs push-pull pairs
+- [`8-pin-chassis.md`](8-pin-chassis.md) — socket pin map, **C3**, heaters
+- [`back-panel.md`](back-panel.md) — speaker posts, **G** / **8 Ω** tees
+- [`large-cap-board.md`](large-cap-board.md) — **C3** +B feeds to OT **RED** CT
+- [`preamp-board.md`](preamp-board.md) — NFB, **G** → pour
 - [`PT.md`](PT.md) — power transformer (separate unit)
-
----
+- [`labels.md`](labels.md) — heat-shrink label text
+- [`../archive/ot-bench-notes.md`](../archive/ot-bench-notes.md) — DCR matrix (identify colors only)
+- [`../archive/wire-tags.md`](../archive/wire-tags.md) — disassembly tag index
+- [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) — factory **T1** pinout
 
 ## Changelog
 
-| Date       | Change                                                                                             |
-| ---------- | -------------------------------------------------------------------------------------------------- |
-| 2026-07-06 | Split from `TRANSFORMERS.md`; photo inventory from ot-1…ot-4                                       |
-| 2026-07-06 | Correct lead count: **5 + 3** per unit (not 5 + 7); one **RED** only                               |
-| 2026-07-06 | Factory **T1** / **LM-9914U** pinout from [`Jolida-JD202A-int-sch.pdf`](Jolida-JD202A-int-sch.pdf) |
-| 2026-07-06 | **Bench meter checklist** — step-by-step secondary + primary measurements                          |
-| 2026-07-06 | Secondary taps fixed at coil: **BLK** = G, **BLU** = 4 Ω, **BRN** = 8 Ω; **T-3** removed           |
-| 2026-07-06 | **Output Transformer Summary** at top — primary UL push-pull + secondary taps                      |
-| 2026-07-06 | **T-1** closed — **LFT** tags **1/15/19**, **RT** tags **11/17/13** per hand schematic             |
+| Date       | Change                                                                                                |
+| ---------- | ----------------------------------------------------------------------------------------------------- |
+| 2026-07-21 | Bench verification section — cold DCR; no standalone OT mains test                                    |
+| 2026-07-20 | P-touch labels **+B LEFT/RIGHT**, **Vn PIN 3/4**, **LEFT/RIGHT COM/4Ω/8Ω** — [`labels.md`](labels.md) |
+| 2026-07-20 | Primary landing by tube: **V3/V7** **ORG+YEL**, **V4/V8** **BRN+WHT**; worksheets per OT              |
+| 2026-07-18 | Connection-first layout; DCR moved to archive; fixed secondary map; link [`tubes.md`](tubes.md)       |
