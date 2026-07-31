@@ -2,7 +2,7 @@
 
 Reverse-engineering and restoration documentation for a **Jolida SJ202A / JD202** integrated tube amplifier (EL34 ×4, 12AX7 ×2, 12AT7 ×2).
 
-**Active checklist:** [`REMAINING_ITEMS.md`](REMAINING_ITEMS.md) — safety, LED, bias preset, Part 6 power-up. The rebuild plan below is a **memorial** of work completed through Part 4.
+**Active checklist:** [`REMAINING_ITEMS.md`](REMAINING_ITEMS.md) — safety, bias preset, Part 6 power-up. The rebuild plan below is a **memorial** of work completed through Part 4.
 
 ## Boards (project convention)
 
@@ -48,7 +48,7 @@ Bench work that needs only the meter and the bare boards
 - [x] **OI-7** — meter the two disc ceramics still on the preamp board corners; log all four pad sites (two came off with their resistors).
 - [x] **Preamp blue R1–R15 meter pass** — done 2026-07-12; every desoldered resistor value-identified (`[parts-list.md](docs/parts-list.md#desoldered-resistor-pile--metered-inventory-2026-07-12)`). Silk-position mapping moves to Part 5.
 - [x] **Film cap / electrolytic body reads** — preamp films (224/474, voltage) and large-cap-board **C10/C11** green caps.
-- [x] **LED GRN pin** — confirm LED return on **V7** or **V8** heater pins **2/7** as-built (`[LED wires.png](photos/LED%20wires.png)`, `[front-panel.md](docs/front-panel.md)`).
+- [x] **LED hookup** — **GRN** + **BLU** on **V7/V8** heater pins **2/7** as-built (`[LED wires.png](photos/LED%20wires.png)`, `[front-panel.md](docs/front-panel.md)`).
 - [x] **Noval type per socket** — **V1** / **V5** = **12AX7**, **V2** / **V6** = **12AT7** (chassis silk + PDF — `[tubes.md](docs/tubes.md)`).
 - [x] **Bias pot → tube mapping** — trace each trim wiper to its C4 exit pad (`[preamp-board.md](docs/preamp-board.md)` worksheet); log the fixed resistor values (bias range).
 - [x] **Q1 dry-fit** — trial-mount the bare boards and panels on the base; record what worked in `[chassis.md](docs/chassis.md)`.
@@ -178,7 +178,7 @@ Label each RCA at the panel; tie all used **centers** to the common preamp input
 | New components        | Recap / verify noval sockets, resistors as needed; install **Bourns 3296** bias trims — **A** (top lug) → **−B**, **B** → GND, **pin 2** wiper → grid path ([`preamp-board.md`](docs/preamp-board.md#bias-network-el34-fixed-bias)) |
 | **18 AWG** hardwire   | **C2** — solder Large Cap Board ↔ Preamp Board pigtails                                                                                                                                                                             |
 | Bias trim cold preset | **C2** live, **all tubes out** — see [Bias trim cold preset](#bias-trim-cold-preset-bourns-3296) below; repeat before EL34s in Part 6                                                                                               |
-| **18 AWG** hardwire   | **C5** — volume pot (**3** wires) Front Panel ↔ Preamp; LED **GRN** + **BLU** hardwire to panel (`[LED wires.png](photos/LED%20wires.png)`) — as-built on **V7/V8** heater pins **2/7**                                             |
+| **18 AWG** hardwire   | **C5** — volume pot (**3** wires) Front Panel ↔ Preamp (**outstanding**) · LED **GRN** + **BLU** **done** — **V7/V8** pins **2/7** (`[LED wires.png](photos/LED%20wires.png)`)                                                      |
 | **18 AWG** hardwire   | **C6** — RCA **centers** from Back Panel → common preamp input                                                                                                                                                                      |
 | **18 AWG** hardwire   | **C4** — finish preamp ↔ 8-pin grid path if not done in Part 4                                                                                                                                                                      |
 | Mount                 | Attach Preamp Board to base — **[Q1](#q1-mount-order-on-the-base)**                                                                                                                                                                 |
@@ -201,7 +201,8 @@ Detail: [`preamp-board.md`](docs/preamp-board.md#bias-network-el34-fixed-bias).
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Rails at preamp | **C2** live — **+B1 / +B2 / −B1 / GND** at their silk pads (**noval tubes out**); heater WHT pair direct from PT                     |
 | Bias network    | **−B1 reaches all four trim dividers**; pot → C4 pad → socket → TP1 mapping table filled (`[preamp-board.md](docs/preamp-board.md)`) |
-| **C5** / LED    | Volume pot sweeps; LED **BLU** polarity at panel · **GRN**/**BLU** on **V7** or **V8** pins **2/7** (as-built)                       |
+| **C5**          | Volume pot sweeps (when installed)                                                                                                   |
+| **LED**         | **Done** — **BLU** at panel · **GRN**/**BLU** on **V7** or **V8** pins **2/7** (as-built)                                            |
 | **C6**          | RCA **centers** continuous back panel → preamp input                                                                                 |
 | **C4**          | Grid path continuous preamp → all four octal pin **5** circuits                                                                      |
 
@@ -264,7 +265,7 @@ Recommended flow when **transformers** and **8-pin sockets** are already on the 
 6. **Part 3 gate** — variac/limiter, tubes out, log rails.
 7. **8-pin — phase B:** finish **C3** (+B at OT **RED**, pin **8** **GRN** → **TP1**); pin **8** **BLK** toward preamp pads.
 8. **Preamp** mounted → **C2**, **PREAMP HEAT**, **PT GND**, **1 Ω** sense parts + pin **8** tails, **C4**/**C6**; bias trim cold preset.
-9. **Front panel** last — **C5**, LED hardwire.
+9. **Front panel** last — **C5** (volume pot); LED **done**.
 10. **Part 6** — staged tubes and bias.
 
 **Front** and **back** panels are loosely coupled to board order; **back** early is fine if post clearance passes.

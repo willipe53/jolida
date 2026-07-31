@@ -28,21 +28,6 @@ Repeat **every time** the amp has been powered, before touching any wire on the 
 
 ---
 
-## LED hookup
-
-Hardwire only (**18 AWG**); not on **C5** volume harness.
-
-| Wire    | Color   | Connect to                                                                                                     |
-| ------- | ------- | -------------------------------------------------------------------------------------------------------------- |
-| **GRN** | Green   | **V7** or **V8** octal heater pin **2** or **7** (as-built — [`photos/LED wires.png`](photos/LED%20wires.png)) |
-| **BLU** | Lt blue | Front-panel LED holder (verify polarity before full power-up)                                                  |
-
-**Circuit:** **6.3 V AC** across pins **2 ↔ 7** on **one** EL34 socket (**V7** or **V8** — same **YEL/YEL** winding). Series **1 kΩ** (or value chosen on bench) with the LED across those pins. Resistor-only is fine (no diode/cap required if bench-tested). Schematic shows preamp heater tap; this unit used **V7/V8** — either works as a power indicator.
-
-Detail: [`docs/front-panel.md`](docs/front-panel.md#power-led--original-wiring-not-on-c5).
-
----
-
 ## Bias trim cold preset (Bourns 3296)
 
 **C2** live, **all tubes out** — repeat before installing EL34s in [Part 6](#part-6--power-up).
