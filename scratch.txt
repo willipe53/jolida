@@ -1,13 +1,17 @@
-There are now two inputs into the DAC and I would like to create a circuit with two solenoids that can be used to switch between them.  There are two push buttons on the front of the DAC, one for Coax (Sonos) and another for TOSLink (Bluetooth Receiver).
+Ok so create a plan for me for the circuit build.  Assume:
 
-The principal is that the TOS (Bluetooth) will be the default input unless someone selects the Tube Amp destination on Sonos (that is the name of the Sonos Connect) in which case the Coax (Sonos) will be selected.  Sonos will remain selected until a half hour of silence is detected on that channel, and then it will revert to the default TOS input.
+- Pins 1,2 will be momentarily connected to select Optical (Bluetooth)
 
-Because the DAC has no IR capabilities, I elected to do this with two micro-solenoids that will be mounted in a custom 3d printed housing so they are able to tab the buttons on the front of the DAC as needed.
+- Pins 3,4 will be momentarily connected to select Coax (Sonos)
 
-My thinking is to do this with a ESP-01 just because it is such a simple project.  I could always upgrade to an ESP-32 though as the footprint won't be significantly smaller as the ESP-01 will require a buck converter.
+- Pin 5 will now be connected to the chassis, as well as the 8266 GND
 
-I drew a circuit that involves two IRL244N's driving the solenoids.  Unfortunately I guess I forgot to save it because all I have is the hard copy.  You can see a picture of it in @a and my prototype of it in @b.
+- Pin 6 will be connected to an analog input GPIO, to detect Coax (Sonos) state
 
-The thing is when I tap 3.3V against either of the 220 resistors attached to the mosfet gates, it does indeed throw the solenoid.  But it stays thrown.  The only way to un-throw it seems to be to remove the 5V supply from the rail.
+- Pin 7 will be connected to an analog input GPIO, to detect Optical (Bluetooth) state
 
-I've never worked with these solenoids before so please tell me a) whether my circuit has any flaws and b) what is the right way to toggle these on and off.
+- Wall wart will be used to power the 8266 via the mini USB connector
+
+- Give me the parts (resistors and transistors) you recommend I use for the push button circuits, and which GPIO output I should use for best results (PWM or whatever matters).
+
+My only experience with transistors is 2N2222 but I have used those sucessfully.
